@@ -121,4 +121,43 @@ class TetrisBarRotView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    data class TBRNode(var i : Int, val state : State = State()) {
+
+        private var next : TBRNode? = null
+        private var prev : TBRNode? = null
+
+        init {
+            addNeighbor()
+        }
+
+        fun addNeighbor() {
+            next = TBRNode(i + 1)
+            next?.prev = this
+        }
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            canvas.drawTBRNode(i, state.scale, paint)
+        }
+
+        fun update(cb : (Float) -> Unit) {
+            state.update(cb)
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            state.startUpdating(cb)
+        }
+
+        fun getNext(dir : Int, cb : () -> Unit) : TBRNode {
+            var curr : TBRNode? = prev
+            if (dir == 1) {
+                curr = next
+            }
+            if (curr != null) {
+                return curr
+            }
+            cb()
+            return this
+        }
+    }
 }
