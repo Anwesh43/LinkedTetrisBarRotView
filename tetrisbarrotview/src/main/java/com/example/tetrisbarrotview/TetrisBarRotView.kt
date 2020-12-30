@@ -43,7 +43,7 @@ fun Canvas.drawTetrisBarRot(scale : Float, w : Float, h : Float, paint : Paint) 
     for (j in 0..1) {
         save()
         scale(1f - 2 * j, 1f - 2 * j)
-        translate(0f, (h / 2 - barH) - (h / 2 - 2 * barH) * sf2)
+        translate(0f, (h / 2 - barH) - (h / 2 - barH) * sf2)
         drawRect(RectF(w / 2 * (1 - sf1), 0f, w / 2, barH), paint)
         restore()
     }
@@ -134,8 +134,10 @@ class TetrisBarRotView(ctx : Context) : View(ctx) {
         }
 
         fun addNeighbor() {
-            next = TBRNode(i + 1)
-            next?.prev = this
+            if (i < colors.size - 1) {
+                next = TBRNode(i + 1)
+                next?.prev = this
+            }
         }
 
         fun draw(canvas : Canvas, paint : Paint) {
