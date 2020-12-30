@@ -183,4 +183,27 @@ class TetrisBarRotView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : TetrisBarRotView) {
+
+        private val animator : Animator = Animator(view)
+        private val trb : TetrisBarRot = TetrisBarRot(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            trb.draw(canvas, paint)
+            animator.animate {
+                trb.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            trb.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
