@@ -208,4 +208,12 @@ class TetrisBarRotView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity : Activity) : TetrisBarRotView {
+            val view : TetrisBarRotView = TetrisBarRotView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
